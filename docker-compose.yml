@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  web:
+      image: 'web-club-portal-ui:latest'
+      build:
+        context: ./web-club-portal /
+      ports:
+        - 8080:8080
+      container_name: app
+      depends_on:
+        - db
+      environment:
+         - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/clubportal
+         - SPRING_DATASOURCE_USERNAME=user
+         - SPRING_DATASOURCE_PASSWORD=password
+         - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+       POSTGRES_USER: user
+       POSTGRES_PASSWORD: password
+       POSTGRES_DB: clubportal
+
